@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
                 // Current URL display (optional, for debugging)
                 if (currentUrl.isNotEmpty()) {
                     Text(
-                        text = "URL: ${currentUrl.subSequence(0,20.coerceAtMost(currentUrl.length))}",
+                        text = "URL: ${currentUrl.subSequence(0,20.coerceAtMost(currentUrl.length))}...",
                         modifier = Modifier.padding(8.dp),
                         style = MaterialTheme.typography.bodySmall
                     )
