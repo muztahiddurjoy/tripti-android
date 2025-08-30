@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.muztahidrahman.tripti"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -45,6 +45,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0") // For String responses
     implementation("com.google.code.gson:gson:2.13.1")
+    implementation("org.jsoup:jsoup:1.16.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     implementation(libs.androidx.core.ktx)
