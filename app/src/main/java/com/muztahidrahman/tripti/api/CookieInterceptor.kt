@@ -1,6 +1,6 @@
 package com.muztahidrahman.tripti.api
 
-import com.muztahidrahman.tripti.db.SharedPreferencesStorage
+import com.muztahidrahman.tripti.db.sharedpref.SharedPreferencesStorage
 import okhttp3.Interceptor
 import okhttp3.Response
 

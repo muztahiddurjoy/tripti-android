@@ -34,7 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.lifecycleScope
-import com.muztahidrahman.tripti.db.SharedPreferencesStorage
+import com.muztahidrahman.tripti.db.sharedpref.SharedPreferencesStorage
 import com.muztahidrahman.tripti.ui.theme.TriptiTheme
 import kotlinx.coroutines.launch
 
