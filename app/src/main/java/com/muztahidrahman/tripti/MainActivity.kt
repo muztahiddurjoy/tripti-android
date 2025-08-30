@@ -30,8 +30,12 @@ class MainActivity : ComponentActivity() {
         val storage = SharedPreferencesStorage(this);
         lifecycleScope.launch {
             val cookies = storage.getCookies()
+            Log.d("GOT COOKIES",cookies)
             if(cookies.isEmpty()){
                 startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+            }
+            else{
+                startActivity(Intent(this@MainActivity, DashboardActivity::class.java))
             }
         }
     }

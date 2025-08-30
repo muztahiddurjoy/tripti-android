@@ -42,6 +42,7 @@ class LoginActivity: ComponentActivity(){
 
     private lateinit var cookieManager: CookieManager
     private var webView: WebView? = null
+    private var storage: SharedPreferencesStorage? = null
 
     companion object {
         private const val TAG = "WebViewCookies"
@@ -51,7 +52,7 @@ class LoginActivity: ComponentActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
+        storage = SharedPreferencesStorage(this)
         setupCookieManager()
 
         setContent {
@@ -200,48 +201,15 @@ class LoginActivity: ComponentActivity(){
 
     private fun collectCookies(url: String) {
         val cookies = cookieManager.getCookie(url)
-
-        if (!cookies.isNullOrEmpty()) {
-            Log.d(TAG, "Cookies for $url:")
-            Log.d(TAG, cookies)
-
-            // Parse individual cookies
-            val cookieList = parseCookies(cookies)
-            cookieList.forEach { cookie ->
-                Log.d(TAG, "Cookie: ${cookie.name} = ${cookie.value}")
-
-                // Store cookies
-                storeCookie(cookie)
-            }
-        } else {
+        if(cookies.isEmpty()){
             Log.d(TAG, "No cookies found for $url")
+            return
         }
-    }
-
-    private fun parseCookies(cookieString: String): List<Cookie> {
-        val cookies = mutableListOf<Cookie>()
-
-        cookieString.split(";").forEach { cookiePair ->
-            val parts = cookiePair.trim().split("=", limit = 2)
-            if (parts.size == 2) {
-                cookies.add(Cookie(parts[0].trim(), parts[1].trim()))
-            }
+        lifecycleScope.launch {
+            storage?.saveCookies(cookies)
         }
 
-        return cookies
     }
-
-    private fun storeCookie(cookie: Cookie) {
-        // Store in SharedPreferences
-        val sharedPref = getSharedPreferences("cookies", MODE_PRIVATE)
-        with(sharedPref.edit()) {
-            putString(cookie.name, cookie.value)
-            apply()
-        }
-
-        Log.d(TAG, "Stored cookie: ${cookie.name}")
-    }
-
     private fun isLoginSuccessful(url: String): Boolean {
         // Customize this logic based on your application
         return when {
@@ -257,32 +225,19 @@ class LoginActivity: ComponentActivity(){
         Log.d(TAG, "Handling login success...")
 
         // Get all stored cookies
-        val allCookies = getAllStoredCookies()
-        Log.d(TAG, "All stored cookies: $allCookies")
         lifecycleScope.launch {
+            val allCookies = storage?.getCookies()
+            Log.d(TAG, "All stored cookies: $allCookies")
             startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
             finish()
         }
-        // You can add navigation logic here
-        // For example, navigate to another screen or close this activity
-    }
-
-    private fun getAllStoredCookies(): Map<String, String> {
-        val sharedPref = getSharedPreferences("cookies", MODE_PRIVATE)
-        return sharedPref.all.mapValues { it.value.toString() }
     }
 
 
 
-    fun clearAllCookies() {
-        cookieManager.removeAllCookies { success ->
-            Log.d(TAG, "Cookies cleared: $success")
-        }
 
-        // Clear stored cookies
-        val sharedPref = getSharedPreferences("cookies", MODE_PRIVATE)
-        sharedPref.edit().clear().apply()
-    }
+
+
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
@@ -294,6 +249,4 @@ class LoginActivity: ComponentActivity(){
             }
         } ?: super.onBackPressed()
     }
-
-    data class Cookie(val name: String, val value: String)
 }
