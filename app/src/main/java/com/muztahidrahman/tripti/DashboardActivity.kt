@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
@@ -26,6 +28,7 @@ import com.muztahidrahman.tripti.db.room.FoodItemEntity
 import com.muztahidrahman.tripti.db.room.FoodRepository
 import com.muztahidrahman.tripti.db.room.TodayOrderEntity
 import com.muztahidrahman.tripti.db.sharedpref.SharedPreferencesStorage
+import com.muztahidrahman.tripti.ui.components.QRCodeViewer
 import com.muztahidrahman.tripti.ui.theme.TriptiTheme
 import com.muztahidrahman.tripti.util.FoodItem
 import com.muztahidrahman.tripti.util.FoodScheduleParser
@@ -146,10 +149,14 @@ class DashboardActivity: ComponentActivity() {
                             if(parseData != null) {
                                 Text("Today:", modifier = Modifier.padding(top = 10.dp))
                                 for(item in parseData.todayOrders){
-                                    Text(
-                                        text = "Name: ${item.mealName} -- Type: ${item.mealType} -- QR: ${item.qrCodeId}",
-                                        modifier = Modifier.padding(top = 10.dp)
-                                    )
+                                    Column(verticalArrangement = Arrangement.Center) {
+                                        Text(
+                                            text = "Name: ${item.mealName} -- Type: ${item.mealType}",
+                                            modifier = Modifier.padding(top = 10.dp)
+                                        )
+                                        if (item.qrCodeId != null)
+                                            QRCodeViewer(item.qrCodeId)
+                                    }
                                 }
 
                             } else {
