@@ -8,7 +8,7 @@ object FoodRepositorySingleton {
     fun initialize(context: Context) {
         if (repository == null) {
             val database = FoodDatabase.getDatabase(context)
-            repository = FoodRepository(database)
+            repository = FoodRepository(context)
         }
     }
 
