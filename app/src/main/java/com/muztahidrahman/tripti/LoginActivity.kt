@@ -205,9 +205,7 @@ class LoginActivity: ComponentActivity(){
             Log.d(TAG, "No cookies found for $url")
             return
         }
-        lifecycleScope.launch {
             storage?.saveCookies(cookies)
-        }
 
     }
     private fun isLoginSuccessful(url: String): Boolean {
@@ -225,8 +223,9 @@ class LoginActivity: ComponentActivity(){
         Log.d(TAG, "Handling login success...")
 
         // Get all stored cookies
+        val allCookies = storage?.getCookies()
+
         lifecycleScope.launch {
-            val allCookies = storage?.getCookies()
             Log.d(TAG, "All stored cookies: $allCookies")
             startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
             finish()

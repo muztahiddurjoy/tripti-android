@@ -39,15 +39,15 @@ class SharedPreferencesStorage(private val context: Context) : StorageManager {
         } else null
     }
 
-    override suspend fun saveCookies(cookies: String) = withContext(Dispatchers.IO) {
+    override fun saveCookies(cookies: String){
         sharedPref.edit().putString(KEY_COOKIES, cookies).apply()
         Log.d("Storage", "Cookies saved: ${cookies.split(";").size} cookies")
         Unit
     }
 
-    override suspend fun getCookies(): String = withContext(Dispatchers.IO) {
+    override fun getCookies(): String {
         val json = sharedPref.getString(KEY_COOKIES, null)
-        return@withContext json ?: ""
+        return json ?: ""
     }
 
     override suspend fun saveDailyCodes(codes: DailyCodes) = withContext(Dispatchers.IO) {

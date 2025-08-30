@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">your-domain.com</domain>
-        <!-- Add more domains as needed -->
+        <domain includeSubdomains="true">tripti.bracu.ac.bd</domain>
     </domain-config>
 
-    <!-- For development only - remove in production -->
+    <!-- This allows all HTTP traffic and bypasses some certificate checks -->
     <base-config cleartextTrafficPermitted="true">
         <trust-anchors>
             <certificates src="system"/>

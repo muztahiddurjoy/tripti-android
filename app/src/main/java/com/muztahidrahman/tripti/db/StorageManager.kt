@@ -3,8 +3,8 @@ package com.muztahidrahman.tripti.db
 interface StorageManager {
     suspend fun saveUserInfo(userInfo: UserInfo)
     suspend fun getUserInfo(): UserInfo?
-    suspend fun saveCookies(cookies: String)
-    suspend fun getCookies(): String
+    fun saveCookies(cookies: String)
+    fun getCookies(): String
     suspend fun saveDailyCodes(codes: DailyCodes)
     suspend fun getDailyCodesForDate(date: String): DailyCodes?
     suspend fun getAllDailyCodes(): List<DailyCodes>
